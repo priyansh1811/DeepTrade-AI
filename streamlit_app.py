@@ -161,10 +161,77 @@ def run_analysis(ticker, trade_date):
         st.error(f"Analysis failed: {e}")
         return None
 
+def check_api_keys():
+    """Check API key status and display warnings"""
+    api_status = {
+        'openai': False,
+        'finnhub': False,
+        'tavily': False
+    }
+    
+    # Check OpenAI API key
+    try:
+        if hasattr(st, 'secrets') and 'api_keys' in st.secrets:
+            if st.secrets['api_keys'].get('OPENAI_API_KEY'):
+                api_status['openai'] = True
+    except:
+        pass
+    
+    # Check Finnhub API key
+    try:
+        if hasattr(st, 'secrets') and 'api_keys' in st.secrets:
+            if st.secrets['api_keys'].get('FINNHUB_API_KEY'):
+                api_status['finnhub'] = True
+    except:
+        pass
+    
+    # Check Tavily API key
+    try:
+        if hasattr(st, 'secrets') and 'api_keys' in st.secrets:
+            if st.secrets['api_keys'].get('TAVILY_API_KEY'):
+                api_status['tavily'] = True
+    except:
+        pass
+    
+    return api_status
+
 def main_ui():
     # Header
     st.markdown('<h1 class="main-header">🧠 Deep Thinking Trading System</h1>', unsafe_allow_html=True)
     st.markdown("### Multi-Agent AI Trading Analysis Platform")
+    
+    # API Key Status
+    api_status = check_api_keys()
+    
+    if not all(api_status.values()):
+        st.warning("⚠️ **API Keys Not Configured** - Some features may show mock data. Please configure API keys in Streamlit Cloud secrets.")
+        
+        with st.expander("🔑 API Key Status"):
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                status = "✅ Configured" if api_status['openai'] else "❌ Missing"
+                st.metric("OpenAI API", status)
+            with col2:
+                status = "✅ Configured" if api_status['finnhub'] else "❌ Missing"
+                st.metric("Finnhub API", status)
+            with col3:
+                status = "✅ Configured" if api_status['tavily'] else "❌ Missing"
+                st.metric("Tavily API", status)
+            
+            st.markdown("""
+            **To configure API keys in Streamlit Cloud:**
+            1. Go to your app's settings
+            2. Navigate to "Secrets" section
+            3. Add the following structure:
+            ```toml
+            [api_keys]
+            OPENAI_API_KEY = "your_openai_key_here"
+            FINNHUB_API_KEY = "your_finnhub_key_here"
+            TAVILY_API_KEY = "your_tavily_key_here"
+            ```
+            """)
+    else:
+        st.success("✅ **All API Keys Configured** - Full functionality available!")
     
     # Sidebar
     st.sidebar.title("⚙️ Configuration")

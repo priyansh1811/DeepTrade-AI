@@ -6,8 +6,17 @@ from langchain_openai import ChatOpenAI
 # Load environment variables
 load_dotenv()
 
-# Get API key from environment
+# Get API key from environment or Streamlit secrets
 openai_api_key = os.getenv("OPENAI_API_KEY")
+
+# Try to get API key from Streamlit secrets if available
+try:
+    import streamlit as st
+    if hasattr(st, 'secrets') and 'api_keys' in st.secrets:
+        openai_api_key = st.secrets['api_keys']['OPENAI_API_KEY']
+        print("Using OpenAI API key from Streamlit secrets")
+except:
+    pass
 
 if not openai_api_key or openai_api_key == "your_openai_api_key_here":
     print("Warning: OPENAI_API_KEY not set or still has placeholder value")

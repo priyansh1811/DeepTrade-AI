@@ -53,6 +53,15 @@ def get_technical_indicators(
 def get_finnhub_news(ticker: str, start_date: str, end_date: str) -> str:
     """Get company news from Finnhub within a date range."""
     finnhub_api_key = os.getenv("FINNHUB_API_KEY")
+    
+    # Try to get API key from Streamlit secrets if available
+    try:
+        import streamlit as st
+        if hasattr(st, 'secrets') and 'api_keys' in st.secrets:
+            finnhub_api_key = st.secrets['api_keys']['FINNHUB_API_KEY']
+    except:
+        pass
+    
     if not finnhub_api_key or finnhub_api_key == "your_finnhub_api_key_here":
         return f"Finnhub API key not configured. Mock news for {ticker} on {start_date}: Strong earnings report and positive market sentiment."
     
@@ -69,6 +78,16 @@ def get_finnhub_news(ticker: str, start_date: str, end_date: str) -> str:
 # The following three tools use Tavily for live, real-time web search.
 # Initialize Tavily tool only if API key is available
 tavily_api_key = os.getenv("TAVILY_API_KEY")
+
+# Try to get API key from Streamlit secrets if available
+try:
+    import streamlit as st
+    if hasattr(st, 'secrets') and 'api_keys' in st.secrets:
+        tavily_api_key = st.secrets['api_keys']['TAVILY_API_KEY']
+        print("Using Tavily API key from Streamlit secrets")
+except:
+    pass
+
 if tavily_api_key and tavily_api_key != "your_tavily_api_key_here":
     try:
         tavily_tool = TavilySearchResults(max_results=3, api_key=tavily_api_key)
