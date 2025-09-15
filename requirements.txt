@@ -1,12 +1,28 @@
-langchain==0.3.5
-langgraph==0.2.30
-langchain-openai>=0.2.0
-openai>=1.40.0
-chromadb>=0.5.3
-yfinance>=0.2.43
-finnhub-python>=2.4.20
-pandas>=2.2.2
-stockstats>=0.6.5
-tavily-python>=0.3.5
-python-dotenv>=1.0.1
-pydantic>=2.7.0
+# Core LangChain and LangGraph
+langchain>=0.3.0,<0.4.0
+langgraph>=0.2.0,<0.3.0
+langchain-openai>=0.2.0,<0.4.0
+langchain-community>=0.2.0,<0.4.0
+langgraph-checkpoint>=2.0.0
+
+# OpenAI
+openai>=1.40.0,<2.0.0
+
+# Database and Storage
+chromadb>=0.5.3,<1.1.0
+
+# Data Sources
+yfinance>=0.2.43,<1.0.0
+finnhub-python>=2.4.20,<3.0.0
+pandas>=2.2.2,<3.0.0
+stockstats>=0.6.5,<1.0.0
+tavily-python>=0.3.5,<1.0.0
+
+# Utilities
+python-dotenv>=1.0.1,<2.0.0
+pydantic>=2.7.0,<3.0.0
+
+# Streamlit UI
+streamlit>=1.28.0,<2.0.0
+plotly>=5.15.0,<6.0.0
+numpy>=1.24.0,<2.0.0

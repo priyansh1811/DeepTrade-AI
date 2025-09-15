@@ -1,11 +1,12 @@
 # Core trading system requirements
-langchain==0.2.17
-langgraph==0.2.16
-langchain-openai==0.1.25
-langchain-community==0.2.19
+langchain>=0.3.0
+langgraph>=0.2.0
+langchain-openai>=0.2.0
+langchain-community>=0.2.0
 openai>=1.40.0
 python-dotenv>=1.0.1
 pydantic>=2.7.0
+langgraph-checkpoint>=2.0.0
 
 # Data and analysis
 yfinance>=0.2.43
